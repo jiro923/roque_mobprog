@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surname_mobprog/widgets/custom_text.dart';
 import '../constants.dart';
 
-class NewsfeedCard extends StatelessWidget {
+class NewsfeedCard extends StatefulWidget {
   final String userName;
   final String postContent;
   final String date;
@@ -24,6 +24,20 @@ class NewsfeedCard extends StatelessWidget {
   });
 
   @override
+  State<NewsfeedCard> createState() => _NewsfeedCardState();
+}
+
+class _NewsfeedCardState extends State<NewsfeedCard> {
+  bool _isLiked = false;
+  late int _likeCount;
+
+  @override
+  void initState() {
+    super.initState();
+    _likeCount = widget.numOfLikes ?? 0;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenUtilSp = ScreenUtil().setSp(10);
     final screenUtilWidth = ScreenUtil().setWidth(10);
@@ -40,10 +54,10 @@ class NewsfeedCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                profileImage != null
+                widget.profileImage != null
                     ? CircleAvatar(
                         radius: ScreenUtil().setSp(18),
-                        backgroundImage: AssetImage(profileImage!),
+                        backgroundImage: AssetImage(widget.profileImage!),
                       )
                     : const Icon(Icons.person),
                 SizedBox(width: screenUtilWidth),
@@ -51,7 +65,7 @@ class NewsfeedCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: userName,
+                      text: widget.userName,
                       fontSize: screenUtilFontUserNameSize,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -61,7 +75,7 @@ class NewsfeedCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CustomText(
-                          text: date,
+                          text: widget.date,
                           fontSize: ScreenUtil().setSp(12),
                           color: Colors.grey,
                         ),
@@ -81,33 +95,40 @@ class NewsfeedCard extends StatelessWidget {
             ),
             SizedBox(height: ScreenUtil().setHeight(5)),
             CustomText(
-              text: postContent,
+              text: widget.postContent,
               fontSize: ScreenUtil().setSp(12),
               color: Colors.black,
             ),
             SizedBox(height: ScreenUtil().setHeight(5)),
-            if (postImage != null)
+            if (widget.postImage != null)
               Image.asset(
-                postImage!,
+                widget.postImage!,
                 width: double.infinity,
                 fit: BoxFit.cover,
               )
-            else if (hasImage == true)
+            else if (widget.hasImage == true)
               const Image(image: AssetImage('assets/images/kluwi.jpg')),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      _isLiked = !_isLiked;
+                      _likeCount += _isLiked ? 1 : -1;
+                    });
+                  },
                   icon: Image.asset(
                     'assets/icons/like.png',
                     width: ScreenUtil().setSp(16),
                     height: ScreenUtil().setSp(16),
+                    color: _isLiked ? Colors.blue : null,
                   ),
                   label: CustomText(
-                    text: (numOfLikes ?? 0).toString(),
+                    text: _likeCount.toString(),
                     fontSize: ScreenUtil().setSp(12),
-                    color: fbDarkPrimary,
+                    color: _isLiked ? Colors.blue : fbDarkPrimary,
+                    fontWeight: _isLiked ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
                 TextButton.icon(
@@ -158,10 +179,10 @@ class NewsfeedCard extends StatelessWidget {
             SizedBox(height: ScreenUtil().setHeight(5)),
             Row(
               children: [
-                profileImage != null
+                widget.profileImage != null
                     ? CircleAvatar(
                         radius: ScreenUtil().setSp(12),
-                        backgroundImage: AssetImage(profileImage!),
+                        backgroundImage: AssetImage(widget.profileImage!),
                       )
                     : const Icon(Icons.person),
                 SizedBox(width: ScreenUtil().setWidth(10)),

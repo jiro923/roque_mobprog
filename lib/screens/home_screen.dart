@@ -20,12 +20,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-  backgroundColor: fbDarkPrimary,
+  backgroundColor: Colors.white,
+  surfaceTintColor: Colors.transparent,
   elevation: 2,
   title: CustomText(
     text: _selectedIndex == 0 ? 'facebook' : 'Notifications',
     fontSize: 25.sp,
-    color: _selectedIndex == 0 ? fbPrimary : fbTextColorWhite,
+    color: _selectedIndex == 0 ? fbPrimary : Colors.black,
     fontFamily: _selectedIndex == 0 ? 'Klavika' : 'Roboto',
     fontWeight: FontWeight.bold,
   ),
