@@ -1,29 +1,16 @@
-# flutter_application_2
+Lab Activity 2: Discussion
 
-A new Flutter project.
+- How I managed the posts and notifications efficiently
 
-# Flutter Newsfeed Application
+To keep my code from getting too messy and repetitive, I used reusable custom widgets  along with Flutter's ListView and ListView.separated. Instead of writing the same layout code over and over for each item, I just passed the names, captions, dates, and like counts into those widgets. For the notifications tab, storing the 20 items in a list and rendering them with ListView.separated made it much easier to manage and automatically took care of the dividers between each row.
 
-## Laboratory Discussion
+- How I accomplished the enhancement
+For the enhancement, I updated constants.dart to apply the assigned color palette across the app's headers, accents, and backgrounds. I also adjusted `omeScreen so the AppBar title changes depending on the active tab showing facebook on the home feed and switching to Notifications when the bell icon is tapped. Finally, I expanded the newsfeed to 10 posts and the notifications page to 20 items.
 
-**Question:** Discuss how you integrate the Image to the `newsfeed_card.dart` and make it dynamic—whether it has an image or not.
+- Challenges encountered and how I addressed them AppBar title not changing At first, tapping the notification icon still showed the "facebook" title at the top because it was hardcoded in HomeScreen I fixed this by checking selectedIndex in the AppBar so the text and color update whenever I switch tabs.
 
-### Answer
+- Text contrast with the new colors
+Switching to darker shades like 181A2F and B4182D made some of the text hard to read at first. I adjusted the foreground colors to use white and the lighter peach shade so everything stayed clear and readable.
 
-To integrate images into `newsfeed_card.dart` and make them dynamic across different posts, the implementation was divided into three parts: asset registration, widget parameterization, and conditional rendering.
-
-#### 1. Configuring Local Assets in `pubspec.yaml`
-Before loading local images in Flutter, the asset directory must be registered in `pubspec.yaml` under the `flutter:` section (`assets/images/`). Storing all profile avatars (`kluwi.jpg`, `fukiko.jpg`) and post photos (`post.jpg`) inside `assets/images/` allows Flutter to bundle those files into the application at build time.
-
-#### 2. Parameterizing `NewsfeedCard` (`lib/widgets/newsfeed_card.dart`)
-Instead of hardcoding a single static image path inside `NewsfeedCard`, nullable fields were added to the stateless widget constructor:
-- `final bool? hasImage;` — A boolean flag indicating whether a post includes an image attachment.
-- `final String? postImage;` — An optional string path pointing to the specific image asset for that post.
-- `final String? profileImage;` — An optional string path for each user's circular avatar (`CircleAvatar` with `AssetImage`).
-
-Making these parameters optional (`?`) allows `NewsfeedScreen` (`lib/screens/newsfeed_screen.dart`) to pass different image paths per post or omit them completely for text-only posts.
-
-#### 3. Conditional Rendering in the `build` Method
-Inside `NewsfeedCard`'s `Column` layout, conditional logic checks whether an image was provided before building the widget:
-- **When an image is present (`postImage != null` or `hasImage == true`):** Flutter renders an `Image.asset(...)` widget with `width: double.infinity` and `fit: BoxFit.cover` so the image spans the card width cleanly without distortion.
-- **When no image is present (`null` or `false`):** The widget returns `const SizedBox.shrink()`, which occupies zero height and zero width. This prevents blank white gaps or layout errors on text-only posts, keeping the card spacing compact and consistent.
+- Repetitive code for 20 notifications
+Adding 19 more notifications one by one initially made notification_screen.dart really long and cluttered. Putting the data into a list and looping through it with ListView.separate cleaned up the file and made it way easier to edit.

@@ -20,16 +20,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shadowColor: fbTextColorWhite,
-        elevation: 2,
-        title: CustomText(
-          text: 'Facebook',
-          fontSize: ScreenUtil().setSp(25),
-          color: fbPrimary,
-          fontFamily: 'Klavika',
-          fontWeight: FontWeight.w700,
-        ),
-      ),
+  backgroundColor: fbDarkPrimary,
+  elevation: 2,
+  title: CustomText(
+    text: _selectedIndex == 0 ? 'facebook' : 'Notifications',
+    fontSize: 25.sp,
+    color: _selectedIndex == 0 ? fbPrimary : fbTextColorWhite,
+    fontFamily: _selectedIndex == 0 ? 'Klavika' : 'Roboto',
+    fontWeight: FontWeight.bold,
+  ),
+),
       body: PageView(
         controller: _pageController,
         children: const <Widget>[NewsfeedScreen(), NotificationScreen()],
